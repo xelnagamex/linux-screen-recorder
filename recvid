@@ -1,0 +1,6 @@
+#!/bin/bash
+a=(`slop -f "%wx%h %x,%y"`)
+w=${a%x*} ; [[ $((w%2)) -ne 0 ]] && ((w--))
+h=${a#*x} ; [[ $((h%2)) -ne 0 ]] && ((h--))
+
+ffmpeg -video_size ${w}x${h} -f x11grab -i :0.0+${a[1]} -f pulse -i default -pix_fmt yuv420p -profile:v high ~/rec_`date +%F_%H:%M:%S`.mp4
